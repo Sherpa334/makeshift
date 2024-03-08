@@ -1,0 +1,9 @@
+version: '3'
+services:
+  app:
+    image: django-docker:0.0.1
+    build:  .
+    environment:
+      WAIT_HOSTS: mongo:27017
+    ports:
+      - '8080:8080'
