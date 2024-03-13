@@ -1,9 +1,36 @@
+.App {
+    text-align: left;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    color: white;
+}
+
+h2 {
+    text-align: center;
+}
+
 .auth-form-container, .login-form {
     display: flex;
     flex-direction: column;
     color:black;
     background-color: #b72525;
-  }
+}
+
+@media screen and (min-width: 600px) {
+    .auth-form-container {
+        padding: 5rem;
+        border: 1px solid rgb(255, 255, 255);
+        border-radius: 10px;
+        margin: 0.5rem;
+    }
+}
+
+label {
+text-align: left;
+padding: 0.25rem 0;
+}
 
 .eminput, .passinput {
     background-color: transparent;
