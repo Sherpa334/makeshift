@@ -1,0 +1,37 @@
+.auth-form-container, .login-form {
+    display: flex;
+    flex-direction: column;
+    color:black;
+    background-color: #b72525;
+  }
+
+.eminput, .passinput {
+    background-color: transparent;
+    border: 1px solid rgb(1, 117, 137);
+}
+
+.forgot {
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    background-color: transparent;
+    font-weight: bold;
+    width: 160px;
+    display: inline;
+    margin: 0 auto;
+}
+
+.loginbutton {
+    border: 1px solid black;
+    padding: 20px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: white;
+    background-color: black;
+    text-decoration: underline;
+    font-weight: bold;
+    width: 160px;
+    display: inline;
+    margin: 5px;
+}
