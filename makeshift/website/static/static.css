@@ -1,0 +1,46 @@
+.App {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    display: flex;
+    height: 924px;
+    align-items: center;
+    justify-content: center;
+    color: #C42844;
+    background-color: #C42844;
+    background: linear-gradient(to bottom, #c42844, #000000);
+    font-size: 90px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    overflow: hidden;
+}
+body {
+    width: 100%;
+    position: relative;
+    text-align: center;
+    display: flex;
+    height: 924px;
+    align-items: center;
+    justify-content: center;
+    color: #C42844;
+    background-color: #C42844;
+    background: linear-gradient(to bottom, #c42844, 1#000000);
+}
+.title {
+    position: absolute;
+    top: 480px;
+    left: 0;
+    line-height: 24px;
+    display: inline-block;
+    width: 1440px;
+    height: 239px;
+}
+.heart-icon{
+    position: absolute;
+    top: 106px;
+    left: 252px;
+    border-radius: 41px;
+    width: 935px;
+    height: 812px;
+    object-fit: cover;
+    mix-blend-mode: color-dodge
+}
