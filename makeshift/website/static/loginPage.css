@@ -8,6 +8,12 @@
     background-color: #C42844;
     background: linear-gradient(to bottom, #c42844, #000000);
 }
+body {
+    color: #C42844;
+    background-color: #C42844;
+    background: linear-gradient(to bottom, #c42844, #000000);
+    overflow: hidden;
+}
 
 h2 {
     text-align: center;
