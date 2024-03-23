@@ -1,0 +1,37 @@
+.App {
+    text-align: center;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    color: #C42844;
+    background-color: #C42844;
+    background: linear-gradient(to bottom, #c42844, #000000);
+}
+body {
+    color: #C42844;
+    background-color: #C42844;
+    background: linear-gradient(to bottom, #c42844, #000000);
+    overflow: hidden;
+}
+.title {
+    position: absolute;
+    color: #C42844;
+    top: 331px;
+    left: 0px;
+    align-content: center;
+    line-height: 24px;
+    display: inline-block;
+    width: 1440px;
+    height: 239px;
+    font-size: 90px;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+.MS-icon{
+    position: absolute;
+    top: 8px;
+    left: 16px;
+    border-radius: 41px;
+    width: 95px;
+    height: 82px;
+}
