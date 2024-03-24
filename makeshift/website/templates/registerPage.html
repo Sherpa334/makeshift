@@ -5,22 +5,25 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>MakeShift</title>
-        <link rel="stylesheet" type="text/css" href="{% static 'css/loginPage.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/registerPage.css' %}">
     </head>
     <body>
         <div class="App">
             <div class="auth-form-container">
-                <h2>Login</h2>
-                <form method="post" action="/login/" class="login-form">
+                <h2>Register</h2>
+                <form method="post" action="/register/" class="register-form">
+                    {% csrf_token %}
                     <label for="username">Username:</label>
                         <input class="eminput" type="text" id="username" name="username" required><br>
+                    <label for="email">Email:</label>
+                        <input class="eminput" type="text" id="email" name="email" required><br>
                     <label for="password">Password:</label>
                         <input class="passinput" type="password" id="password" name="password" required><br>
-                    <div class="forgotandlogin">
-                        <button class="forgot" type="button"><a href="#" style="color: black;">Forgot Password?</a></button>
-                        <button class="loginbutton" type="submit" value="Post">Login</button>
+                    <label for="password">Confirm Password:</label>
+                        <input class="passinput" type="password" id="confirm_password" name="confirm_password" required><br>
+                    <div class="register">
+                        <button class="registerbutton" type="submit">Register</button>
                     </div>
-                    <p>Don't have an account? <a href="/register">Create Account</a></p>
                 </form>
             </div>
         </div>
