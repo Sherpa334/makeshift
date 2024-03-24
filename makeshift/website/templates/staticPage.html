@@ -1,16 +1,18 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>MakeShift</title>
-        <link rel="stylesheet" type="text/css" href="static/static.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/static.css' %}">
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
     </head>
     <body>
         <div class="App">
             <h1 class="title">MakeShift</h1>
-            <img class="MS-icon" src="static/MS.png" alt="My Image">
-            <script src="static/static.js"></script>
+            <img class="MS-icon" src="{% static 'MS.png' %}" alt="My Image">
+            <script src="{% static 'js/static.js' %}"></script>
         </div>
     </body>
 </html>
