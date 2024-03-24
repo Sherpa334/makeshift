@@ -24,11 +24,16 @@ def registerPage(request):
     context = {}
     if request.method == "POST":
         username = request.POST.get("username")
+        firstname = request.POST.get("firstname")
+        lastname = request.POST.get("lastname")
         email = request.POST.get("email")
         password = request.POST.get("password")
         
         try:
             user = User.objects.create_user(username, email, password)
+            user.first_name = firstname
+            user.last_name = lastname
+            
             user.save()
             messages.success(request, "Account creation is successful")
             return redirect('loginPage')
