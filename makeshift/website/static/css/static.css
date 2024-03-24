@@ -35,3 +35,13 @@ body {
     width: 95px;
     height: 82px;
 }
+.user{
+    position: absolute;
+    align-content: center;
+    top: 222px;
+}
+.logout{
+    position: absolute;
+    align-content: center;
+    top: 222px;
+}
