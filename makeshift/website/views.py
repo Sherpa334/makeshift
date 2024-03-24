@@ -16,7 +16,7 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return render(request, "static.html", context)
+            return redirect("staticPage")
         else:
             messages.error(request, "Bad Credentials")
     return render(request, "loginPage.html", context)
