@@ -71,3 +71,6 @@ def registerPage(request):
         return redirect('loginPage')
     
     return render(request, "registerPage.html", context)
+
+def staticPage(request):
+    return render(request, "staticPage.html", {})
