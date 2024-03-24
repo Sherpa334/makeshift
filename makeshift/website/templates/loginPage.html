@@ -1,25 +1,26 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>MakeShift</title>
-        <link rel="stylesheet" type="text/css" href="static/loginPage.css">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/loginPage.css' %}">
     </head>
     <body>
         <div class="App">
             <div class="auth-form-container">
                 <h2>Login</h2>
-                <form class="login-form">
+                <form method="post" action="/login/" class="login-form">
                     <label for="username">Username:</label>
                         <input class="eminput" type="text" id="username" name="username" required><br>
                     <label for="password">Password:</label>
                         <input class="passinput" type="password" id="password" name="password" required><br>
                     <div class="forgotandlogin">
-                        <button class="forgot" type=button href="#">Forgot Password?</a>
-                        <button class="loginbutton" type="submit">Login</button>
+                        <button class="forgot" type="button"><a href="#" style="color: black;">Forgot Password?</a></button>
+                        <button class="loginbutton" type="submit" value="Post">Login</button>
                     </div>
-                    <p>Don't have an account? <a href="#">Create Account</a></p>
+                    <p>Don't have an account? <a href="/register">Create Account</a></p>
                 </form>
             </div>
         </div>
