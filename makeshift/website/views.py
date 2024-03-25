@@ -42,6 +42,12 @@ def loginPage(request):
             else:
                 messages.error(request, "Bad Credentials")
     return render(request, "loginPage.html", context)
+
+def logout(request):
+    logout(request)
+    response = redirect('loginPage')
+    response.delete_cookie('auth_token')
+    return response
     
 def registerPage(request):
     context = {}
