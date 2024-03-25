@@ -35,8 +35,7 @@ def loginPage(request):
                 login(request, user)
                 auth_token = secrets.token_urlsafe(32)
                 hashed_token = hashlib.sha256(auth_token.encode()).hexdigest()
-                user.auth_token = hashed_token
-                user.save()
+                users.update_one({"username": username}, {"$set": {"auth_token": hashed_token}})
                 response = redirect('staticPage')
                 response.set_cookie('auth_token', auth_token, httponly=True, max_age=3600)
                 return response
@@ -44,7 +43,7 @@ def loginPage(request):
                 messages.error(request, "Bad Credentials")
     return render(request, "loginPage.html", context)
 
-def logout(request):
+def logoutRequest(request):
     logout(request)
     response = redirect('loginPage')
     response.delete_cookie('auth_token')
@@ -74,7 +73,7 @@ def registerPage(request):
         user = User.objects.create_user(username=username, password=password)
         user.save()
 
-        users.insert_one({"username": username, "salt": salt, "hashed_password": hashed_password})
+        users.insert_one({"username": username, "salt": salt, "hashed_password": hashed_password, "auth_token": ""})
         
         messages.success(request, "Account creation is successful")
         return redirect('loginPage')
@@ -86,11 +85,25 @@ def staticPage(request):
     if request.COOKIES.get('auth_token'):
         auth_token = request.COOKIES.get('auth_token')
         user = request.user
-        stored_auth_token = user.auth_token
-
-        if stored_auth_token and stored_auth_token != hashlib.sha256(auth_token.encode()).hexdigest():
+        username = user.username
+        db = dbConnection()
+        users = db["authenticate"]
+        user_data = users.find_one({"username": username})
+        stored_auth_token = user_data.get("auth_token")
+        if stored_auth_token:
+            if stored_auth_token != hashlib.sha256(auth_token.encode()).hexdigest():
+                logout(request)
+                response = redirect('loginPage')
+                response.delete_cookie('auth_token')
+                return response
+        else:
             logout(request)
             response = redirect('loginPage')
             response.delete_cookie('auth_token')
             return response
+    else:
+        logout(request)
+        response = redirect('loginPage')
+        response.delete_cookie('auth_token')
+        return response
     return render(request, "staticPage.html", {})
