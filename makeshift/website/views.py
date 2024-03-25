@@ -17,24 +17,16 @@ def dbConnection():
 # Create your views here.
 def loginPage(request):
     context = {}
-    if request.user:
-        username = request.user.username
-        auth_token = request.COOKIES.get('auth_token')
+    if request.method == "GET":
         db = dbConnection()
         users = db["authenticate"]
-        user_data = users.find_one({"username": username})
-        stored_auth_token = user_data.get("auth_token")
-        if auth_token:
-            if stored_auth_token == hashlib.sha256(auth_token.encode()).hexdigest():
-                    # If auth token matches, login the user and redirect to staticPage
-                user = authenticate(username=username, password=password)
-                if user is not None:
-                    login(request, user)
+        user_data = users.find_one({"isActive": 1})
+        if user_data:
+            auth_token = request.COOKIES.get('auth_token')
+            stored_auth_token = user_data.get("auth_token")
+            if auth_token:
+                if stored_auth_token == hashlib.sha256(auth_token.encode()).hexdigest():
                     return redirect('staticPage')
-                else:
-                    return JsonResponse({'error': 'Invalid credentials'}, status=401)
-            else:
-                return JsonResponse({'error': 'Invalid auth token'}, status=401)
 
     if request.method == "POST":
         username = request.POST.get("username")
@@ -52,18 +44,6 @@ def loginPage(request):
             user = authenticate(username=username, password=password)
             auth_token = request.COOKIES.get('auth_token')
             stored_auth_token = user_data.get("auth_token")
-            if auth_token:
-                if stored_auth_token == hashlib.sha256(auth_token.encode()).hexdigest():
-                    # If auth token matches, login the user and redirect to staticPage
-                    user = authenticate(username=username, password=password)
-                    if user is not None:
-                        login(request, user)
-                        return redirect('staticPage')
-                    else:
-                        return JsonResponse({'error': 'Invalid credentials'}, status=401)
-                else:
-                    return JsonResponse({'error': 'Invalid auth token'}, status=401)
-
             # If no auth token in cookie, proceed with regular login process
             if hashed_password == stored_hashed_password:
                 user = authenticate(username=username, password=password)
@@ -71,16 +51,20 @@ def loginPage(request):
                     login(request, user)
                     auth_token = secrets.token_urlsafe(32)
                     hashed_token = hashlib.sha256(auth_token.encode()).hexdigest()
-                    users.update_one({"username": username}, {"$set": {"auth_token": hashed_token}})
+                    users.update_one({"username": username}, {"$set": {"auth_token": hashed_token, "isActive": 1}})
                     response = redirect('staticPage')
                     response.set_cookie('auth_token', auth_token, httponly=True, max_age=3600)
                     return response
                 else:
                     messages.error(request, "Bad Credentials")
+                    
     return render(request, "loginPage.html", context)
 
 def logoutRequest(request):
     logout(request)
+    db = dbConnection()
+    users = db["authenticate"]
+    users.update_one({"isActive": 1}, {"$set": {"isActive": 0}})
     response = redirect('loginPage')
     response.delete_cookie('auth_token')
     return response
@@ -109,7 +93,7 @@ def registerPage(request):
         user = User.objects.create_user(username=username, password=password)
         user.save()
 
-        users.insert_one({"username": username, "salt": salt, "hashed_password": hashed_password, "auth_token": ""})
+        users.insert_one({"username": username, "salt": salt, "hashed_password": hashed_password, "auth_token": "", "isActive": 0})
         
         messages.success(request, "Account creation is successful")
         return redirect('loginPage')
@@ -132,11 +116,17 @@ def staticPage(request):
                 return response
         else:
             logout(request)
+            db = dbConnection()
+            users = db["authenticate"]
+            users.update_one({"isActive": 1}, {"$set": {"isActive": 0}})
             response = redirect('loginPage')
             response.delete_cookie('auth_token')
             return response
     else:
         logout(request)
+        db = dbConnection()
+        users = db["authenticate"]
+        users.update_one({"isActive": 1}, {"$set": {"isActive": 0}})
         response = redirect('loginPage')
         response.delete_cookie('auth_token')
         return response
