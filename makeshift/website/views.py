@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate,login,logout
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from pymongo import MongoClient
+from django.http import JsonResponse
 import bcrypt
 import hashlib
 import secrets
@@ -16,6 +17,25 @@ def dbConnection():
 # Create your views here.
 def loginPage(request):
     context = {}
+    if request.user:
+        username = request.user.username
+        auth_token = request.COOKIES.get('auth_token')
+        db = dbConnection()
+        users = db["authenticate"]
+        user_data = users.find_one({"username": username})
+        stored_auth_token = user_data.get("auth_token")
+        if auth_token:
+            if stored_auth_token == hashlib.sha256(auth_token.encode()).hexdigest():
+                    # If auth token matches, login the user and redirect to staticPage
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    return redirect('staticPage')
+                else:
+                    return JsonResponse({'error': 'Invalid credentials'}, status=401)
+            else:
+                return JsonResponse({'error': 'Invalid auth token'}, status=401)
+
     if request.method == "POST":
         username = request.POST.get("username")
         password = request.POST.get("password")
@@ -30,17 +50,33 @@ def loginPage(request):
             hashed_password = bcrypt.hashpw(password.encode(), salt)
 
             user = authenticate(username=username, password=password)
+            auth_token = request.COOKIES.get('auth_token')
+            stored_auth_token = user_data.get("auth_token")
+            if auth_token:
+                if stored_auth_token == hashlib.sha256(auth_token.encode()).hexdigest():
+                    # If auth token matches, login the user and redirect to staticPage
+                    user = authenticate(username=username, password=password)
+                    if user is not None:
+                        login(request, user)
+                        return redirect('staticPage')
+                    else:
+                        return JsonResponse({'error': 'Invalid credentials'}, status=401)
+                else:
+                    return JsonResponse({'error': 'Invalid auth token'}, status=401)
 
-            if hashed_password == stored_hashed_password and user is not None:
-                login(request, user)
-                auth_token = secrets.token_urlsafe(32)
-                hashed_token = hashlib.sha256(auth_token.encode()).hexdigest()
-                users.update_one({"username": username}, {"$set": {"auth_token": hashed_token}})
-                response = redirect('staticPage')
-                response.set_cookie('auth_token', auth_token, httponly=True, max_age=3600)
-                return response
-            else:
-                messages.error(request, "Bad Credentials")
+            # If no auth token in cookie, proceed with regular login process
+            if hashed_password == stored_hashed_password:
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    login(request, user)
+                    auth_token = secrets.token_urlsafe(32)
+                    hashed_token = hashlib.sha256(auth_token.encode()).hexdigest()
+                    users.update_one({"username": username}, {"$set": {"auth_token": hashed_token}})
+                    response = redirect('staticPage')
+                    response.set_cookie('auth_token', auth_token, httponly=True, max_age=3600)
+                    return response
+                else:
+                    messages.error(request, "Bad Credentials")
     return render(request, "loginPage.html", context)
 
 def logoutRequest(request):
@@ -92,9 +128,7 @@ def staticPage(request):
         stored_auth_token = user_data.get("auth_token")
         if stored_auth_token:
             if stored_auth_token != hashlib.sha256(auth_token.encode()).hexdigest():
-                logout(request)
                 response = redirect('loginPage')
-                response.delete_cookie('auth_token')
                 return response
         else:
             logout(request)
