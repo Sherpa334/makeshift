@@ -45,3 +45,8 @@ body {
     align-content: center;
     top: 222px;
 }
+
+.post-view-profiles {
+    position: absolute;
+    top: 272px;
+}

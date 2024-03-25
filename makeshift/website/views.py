@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from pymongo import MongoClient
 from django.http import JsonResponse
+from .models import Profile, Like
 import bcrypt
 import hashlib
 import secrets
@@ -131,3 +132,52 @@ def staticPage(request):
         response.delete_cookie('auth_token')
         return response
     return render(request, "staticPage.html", {})
+
+@login_required(login_url='loginPage')
+def homePage(request):
+    db = dbConnection()
+    profiles = db["Profiles"]
+    user = request.user
+    username = user.username
+    emptyProfile = {"name": "", "gender": "", "location": "", "bio": "", "likes": 0}
+    if request.method == 'POST':
+        name = username
+        gender = request.POST.get('Gender')
+        location = request.POST.get('Location')
+        bio = request.POST.get('Bio')
+        profile = {"name": name, "gender": gender, "location": location, "bio": bio, "likes": 0}
+        profiles.insert_one(profile)
+    random_profile = profiles.aggregate([{ '$sample': { 'size': 1 } }])
+    random_profile = list(random_profile)
+    if random_profile:
+        random_profile = random_profile[0]
+    else:
+        random_profile = emptyProfile
+    return render(request, 'homePage.html', {'random_profile': random_profile})
+
+def nextProfile(request):
+    return redirect('homePage')
+
+def likeProfile(request):
+    if request.method == 'POST':
+        user = request.user
+        username = user.username
+        profile_name = request.POST.get('profile_name')
+        db = dbConnection()
+        likes_collection = db["likes"]
+        user_likes = likes_collection.find_one({"username": username})
+        if user_likes:
+            liked_profiles = user_likes.get("liked_profiles", [])
+            if profile_name not in liked_profiles:
+                likes_collection.update_one({"username": username}, {"$push": {"liked_profiles": profile_name}})
+                profiles_collection = db["Profiles"]
+                profile = profiles_collection.find_one({"name": profile_name})
+                if profile:
+                    profiles_collection.update_one({"name": profile_name}, {"$inc": {"likes": 1}})
+        else:
+            likes_collection.insert_one({"username": username, "liked_profiles": [profile_name]})
+            profiles_collection = db["Profiles"]
+            profile = profiles_collection.find_one({"name": profile_name})
+            if profile:
+                profiles_collection.update_one({"name": profile_name}, {"$inc": {"likes": 1}})
+    return redirect('homePage')

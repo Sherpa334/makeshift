@@ -1,0 +1,51 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>MakeShift</title>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/homePage.css' %}">
+        <link rel="shortcut icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    </head>
+    <body>
+        <div class="App">
+            <div class="create-Profile">
+                <h2>Create Profile</h2>
+                <form method="post" action="/home/" class="create-post-form">
+                    {% csrf_token %}
+                    <label for="Gender">Gender:</label>
+                        <input class="genderinput" type="text" id="Gender" name="Gender" required><br>
+                    <label for="Location">Location:</label>
+                        <input class="Locationinput" type="text" id="Location" name="Location" required><br>
+                    <label for="Bio">Bio:</label>
+                        <input class="Bioinput" type="text" id="Bio" name="Bio" required><br> 
+                    <div class="Post">
+                        <button class="Post" type="submit" value="Post">Post</button>
+                    </div>
+                </form>
+                <div class="random-profile">
+                    <h2>Random Profile</h2>
+                    {% if random_profile %}
+                    <div class="profile-details">
+                        <p><span>Name:</span> <span id="profile-name">{{ random_profile.name|safe }}</span></p>
+                        <p><span>Gender:</span> <span id="profile-gender">{{ random_profile.gender|safe }}</span></p>
+                        <p><span>Location:</span> <span id="profile-location">{{ random_profile.location|safe }}</span></p>
+                        <p><span>Bio:</span> <span id="profile-bio">{{ random_profile.bio|safe }}</span></p>
+                        <p><span>Like Count:</span> <span id="like-count">{{ random_profile.likes|safe }}</span></p>
+                    </div>
+                    <form method="post" action="{% url 'likeProfile' %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="profile_name" value="{{ random_profile.name|safe }}">
+                        <button id="like-button" type="submit" value="Like">Like</button>
+                    </form>
+                    {% endif %}
+                    <form method="post" action="/next-profile/">
+                        {% csrf_token %}
+                        <button id="next-button" type="submit" value="Next">Next</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

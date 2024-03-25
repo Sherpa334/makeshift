@@ -15,6 +15,7 @@
             <script src="{% static 'js/static.js' %}"></script>
             <h2 class="user">{{request.user}}</h2>
             <button class="logout" type="button"><a href="{% url 'logout' %}" style="color: black;">Logout</a></button>
+            <button class="post-view-profiles" type="button"><a href="{% url 'homePage' %}" style="color: black;">Post/View Profiles</a></button>
         </div>
     </body>
 </html>

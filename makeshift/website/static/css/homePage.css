@@ -1,0 +1,92 @@
+.App {
+    text-align: center;
+    display: flex;
+    min-height: 100vh;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    background: linear-gradient(to bottom, #c42844, #000000);
+}
+
+.create-Profile {
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 800px;
+    margin-top: 50px;
+    margin-bottom: 20px;
+}
+
+.create-post-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.create-post-form label {
+    margin-bottom: 5px;
+}
+
+.create-post-form input[type="text"],
+.create-post-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.create-post-form textarea {
+    height: 150px;
+}
+
+.Post button {
+    padding: 10px 20px;
+    background-color: #c42844;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.Post button:hover {
+    background-color: #a02137;
+}
+
+.random-profile {
+    margin-top: 20px;
+    color: #000;
+}
+
+.profile-details {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.profile-details p {
+    margin: 5px 0;
+}
+.like-button {
+    text-align: center;
+}
+
+#like-button {
+    padding: 10px 20px;
+    background-color: #c42844;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#like-button:hover {
+    background-color: #a02137;
+}
