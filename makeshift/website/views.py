@@ -38,7 +38,7 @@ def loginPage(request):
                 user.auth_token = hashed_token
                 user.save()
                 response = redirect('staticPage')
-                response.set_cookie('auth_token', auth_token, httponly=True, max_age=3600)  
+                response.set_cookie('auth_token', auth_token, httponly=True, max_age=3600)
                 return response
             else:
                 messages.error(request, "Bad Credentials")
