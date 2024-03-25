@@ -83,4 +83,14 @@ def registerPage(request):
 
 @login_required(login_url='loginPage')
 def staticPage(request):
+    if request.COOKIES.get('auth_token'):
+        auth_token = request.COOKIES.get('auth_token')
+        user = request.user
+        stored_auth_token = user.auth_token
+
+        if stored_auth_token and stored_auth_token != hashlib.sha256(auth_token.encode()).hexdigest():
+            logout(request)
+            response = redirect('loginPage')
+            response.delete_cookie('auth_token')
+            return response
     return render(request, "staticPage.html", {})
