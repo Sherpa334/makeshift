@@ -5,7 +5,8 @@ from django.db import IntegrityError
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 import re
-
+import hashlib
+import secrets
 # Create your views here.
 def loginPage(request):
     context = {}
@@ -17,13 +18,21 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            return redirect("staticPage")
+            auth_token = secrets.token_urlsafe(32)
+            hashed_token = hashlib.sha256(auth_token.encode()).hexdigest()
+            user.auth_token = hashed_token
+            user.save()
+            response = redirect('staticPage')
+            response.set_cookie('auth_token', auth_token, httponly=True, max_age=3600)  
+            return response
         else:
             messages.error(request, "Bad Credentials")
     return render(request, "loginPage.html", context)
 def logout(request):
     logout(request)
-    return redirect('loginPage')   
+    response = redirect('loginPage')
+    response.delete_cookie('auth_token')
+    return response  
 def registerPage(request):
     context = {}
     if request.method == "POST":
