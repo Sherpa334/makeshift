@@ -183,4 +183,13 @@ def likeProfile(request):
     return redirect('homePage')
 
 def chat(request):
-    return render(request, "chat.html")
+    db = dbConnection()
+    authentication_collection = db["authenticate"]
+    username = "Guest"
+    auth_token = request.COOKIES.get("auth_token")
+    if auth_token:
+        auth_token = hashlib.sha256(auth_token.encode()).hexdigest()
+        user = authentication_collection.find_one({"auth_token": auth_token})
+        if user:
+            username = user.get("username")
+    return render(request, "chat.html", {'username': username,})

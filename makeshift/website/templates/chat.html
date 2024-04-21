@@ -5,45 +5,41 @@
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
     <title>Lobby</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
-
 </head>
 <body>
-    <h1>Lets chat!</h1>
-
+    <h1>Let's chat!</h1>
     <form id="form">
         <input type="text" name="message"/>
     </form>
-
     <div id="messages"></div>
-
     <script type="text/javascript">
         let url = `ws://${window.location.host}/ws/socket-server/`;
-
+        const authToken = `{{ auth_token }}`;
         const chatSocket = new WebSocket(url);
+        const username = `{{ username }}`;
 
-        chatSocket.onmessage = function(e){
-            let data = JSON.parse(e.data)
-            console.log('Data:', data)
-
-            if(data.type === 'chat'){
-                let messages = document.getElementById('messages')
-                messages.insertAdjacentHTML('beforeend', `<div>
-                    <p>${data.message}</p>
-                </div>`)
+        chatSocket.onmessage = function(e) {
+            let data = JSON.parse(e.data);
+            console.log('Data:', data);
+            if (data.type === 'chat') {
+                let messages = document.getElementById('messages');
+                let messageElement = document.createElement('div');
+                let messageText = `<p><strong>${data.username}:</strong> ${data.message}</p>`;
+                messageElement.innerHTML = messageText;
+                messages.appendChild(messageElement);
             }
         }
 
-        let form = document.getElementById('form')
-        form.addEventListener('submit', (e)=> {
-            e.preventDefault()
-            let message = e.target.message.value
+        let form = document.getElementById('form');
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+            let message = e.target.message.value;
             chatSocket.send(JSON.stringify({
-                'message': message
-            }))
-            form.reset()
-        })
-
-
+                'message': message,
+                'username': username
+            }));
+            form.reset();
+        });
     </script>
 </body>
 </html>
