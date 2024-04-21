@@ -182,6 +182,7 @@ def likeProfile(request):
                 profiles_collection.update_one({"name": profile_name}, {"$inc": {"likes": 1}})
     return redirect('homePage')
 
+@login_required(login_url='loginPage')
 def chat(request):
     db = dbConnection()
     authentication_collection = db["authenticate"]

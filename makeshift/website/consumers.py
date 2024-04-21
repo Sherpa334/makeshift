@@ -28,6 +28,9 @@ class ChatConsumer(WebsocketConsumer):
     def receive(self, text_data):
         text_data_json = json.loads(text_data)
         message = text_data_json['message']
+        message = message.replace("&","&amp;")
+        message = message.replace("<","&lt;")
+        message = message.replace(">","&gt;")
         username = text_data_json.get('username', 'Guest')  # Use 'Guest' if username is not provided
 
         chat_history.append({

@@ -13,9 +13,10 @@
             <h1 class="title">MakeShift</h1>
             <img class="MS-icon" src="{% static 'MS.png' %}" alt="My Image">
             <script src="{% static 'js/static.js' %}"></script>
-            <h2 class="user">{{request.user}}</h2>
-            <button class="logout" type="button"><a href="{% url 'logout' %}" style="color: black;">Logout</a></button>
+            <h2 class="user"> Welcome {{request.user}}</h2>
             <button class="post-view-profiles" type="button"><a href="{% url 'homePage' %}" style="color: black;">Post/View Profiles</a></button>
+            <button class="chat" type="button"><a href="{% url 'chat' %}" style="color: black;">Let's chat</a></button>
+            <button class="logout" type="button"><a href="{% url 'logout' %}" style="color: black;">Logout</a></button>
         </div>
     </body>
 </html>

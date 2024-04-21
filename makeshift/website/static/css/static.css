@@ -39,14 +39,23 @@ body {
     position: absolute;
     align-content: center;
     top: 222px;
+    font-size: 40px;
+    color:#000000
 }
 .logout{
     position: absolute;
     align-content: center;
-    top: 222px;
+    top: 8px;
+    right: 3px;
 }
 
 .post-view-profiles {
     position: absolute;
-    top: 272px;
+    top: 8px;
+    right: 133px;
+}
+.chat {
+    position: absolute;
+    top: 8px;
+    right: 60px;
 }

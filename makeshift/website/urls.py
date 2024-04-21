@@ -12,5 +12,5 @@ urlpatterns = [
     path("home/", views.homePage, name="homePage"),
     path("next-profile/", views.nextProfile, name="nextProfile"),
     path('like-profile/', views.likeProfile, name='likeProfile'),
-    path('chat/', views.chat)
+    path('chat/', views.chat, name="chat")
 ]
