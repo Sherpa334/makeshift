@@ -11,5 +11,6 @@ urlpatterns = [
     path("logout/", views.logoutRequest, name="logout"),
     path("home/", views.homePage, name="homePage"),
     path("next-profile/", views.nextProfile, name="nextProfile"),
-    path('like-profile/', views.likeProfile, name='likeProfile')
+    path('like-profile/', views.likeProfile, name='likeProfile'),
+    path('chat/', views.chat)
 ]

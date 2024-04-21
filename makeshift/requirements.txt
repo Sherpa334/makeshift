@@ -1,3 +1,4 @@
 Django
 bcrypt
 pymongo
+channels==3.0.5

@@ -181,3 +181,6 @@ def likeProfile(request):
             if profile:
                 profiles_collection.update_one({"name": profile_name}, {"$inc": {"likes": 1}})
     return redirect('homePage')
+
+def chat(request):
+    return render(request, "chat.html")
