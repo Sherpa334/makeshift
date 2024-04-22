@@ -17,7 +17,9 @@ OBJ 2 :
 - If you want to log out click log out and you should be redirected back to log in. 
 # Part 2 Use Docker compose up.
 OBJ 1 :
-- \
+- Allowed uploading images along side posts
+- Images must be submitted along side posts as another required field
+- Any other file submitted other than images will result in no post being created
 OBJ 2 :
 - Create account and login
 - Next find the "Let's Chat" button and click
