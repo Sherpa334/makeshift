@@ -2,6 +2,8 @@ from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
 from . import views
+from django.conf import settings
+
 
 urlpatterns = [
     path("", views.loginPage, name="loginPage"),
@@ -13,4 +15,4 @@ urlpatterns = [
     path("next-profile/", views.nextProfile, name="nextProfile"),
     path('like-profile/', views.likeProfile, name='likeProfile'),
     path('chat/', views.chat, name="chat")
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

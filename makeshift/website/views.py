@@ -1,3 +1,7 @@
+import html
+import os
+import uuid
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
@@ -9,6 +13,7 @@ from .models import Profile, Like
 import bcrypt
 import hashlib
 import secrets
+from django.utils.text import slugify
 
 def dbConnection():
     mongo_client = MongoClient("mongo")
@@ -140,19 +145,36 @@ def homePage(request):
     user = request.user
     username = user.username
     emptyProfile = {"name": "", "gender": "", "location": "", "bio": "", "likes": 0}
+
     if request.method == 'POST':
         name = username
-        gender = request.POST.get('Gender')
-        location = request.POST.get('Location')
-        bio = request.POST.get('Bio')
-        profile = {"name": name, "gender": gender, "location": location, "bio": bio, "likes": 0}
-        profiles.insert_one(profile)
-    random_profile = profiles.aggregate([{ '$sample': { 'size': 1 } }])
+        gender = html.escape(request.POST.get('Gender'))
+        location = html.escape(request.POST.get('Location'))
+        bio = html.escape(request.POST.get('Bio'))
+        image = request.FILES.get('upload')
+        
+        if image:
+            random_id = str(uuid.uuid4())
+            original_name = image.name
+            _, extension = os.path.splitext(original_name)
+            sanitized_name = original_name.replace("/", "")
+            file_name = f"{random_id}_{slugify(sanitized_name)}{extension}"
+            file_path=(request.path).lstrip("/")
+            file_path = os.path.join(settings.MEDIA_ROOT, file_name)
+            os.makedirs(os.path.dirname(file_path), exist_ok=True)
+            with open(file_path, "wb") as file:
+                for chunk in image.chunks():
+                    file.write(chunk)
+            profile = {"name": name, "gender": gender, "location": location, "bio": bio, "likes": 0, "image_url": f"{settings.MEDIA_URL}{file_name}"}
+            
+            profiles.insert_one(profile)
+    random_profile = profiles.aggregate([{'$sample': {'size': 1}}])
     random_profile = list(random_profile)
     if random_profile:
         random_profile = random_profile[0]
     else:
         random_profile = emptyProfile
+
     return render(request, 'homePage.html', {'random_profile': random_profile})
 
 def nextProfile(request):

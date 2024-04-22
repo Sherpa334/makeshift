@@ -12,7 +12,7 @@
         <div class="App">
             <div class="create-Profile">
                 <h2>Create Profile</h2>
-                <form method="post" action="/home/" class="create-post-form">
+                <form method="post" action="/home/" class="create-post-form" enctype="multipart/form-data">
                     {% csrf_token %}
                     <label for="Gender">Gender:</label>
                         <input class="genderinput" type="text" id="Gender" name="Gender" required><br>
@@ -20,6 +20,8 @@
                         <input class="Locationinput" type="text" id="Location" name="Location" required><br>
                     <label for="Bio">Bio:</label>
                         <input class="Bioinput" type="text" id="Bio" name="Bio" required><br> 
+                    <label>Upload Image:</label>
+                        <input type="file" name="upload"><br/>
                     <div class="Post">
                         <button class="Post" type="submit" value="Post">Post</button>
                     </div>
@@ -33,6 +35,11 @@
                         <p><span>Location:</span> <span id="profile-location">{{ random_profile.location|safe }}</span></p>
                         <p><span>Bio:</span> <span id="profile-bio">{{ random_profile.bio|safe }}</span></p>
                         <p><span>Like Count:</span> <span id="like-count">{{ random_profile.likes|safe }}</span></p>
+                        {% if random_profile.image_url %}
+                        <img src="{{ random_profile.image_url }}" alt="Uploaded Image" class="profile-image"/>
+                        {% else %}
+                        <div class="no-image">No Image Available</div>
+                        {% endif %}
                     </div>
                     <form method="post" action="{% url 'likeProfile' %}">
                         {% csrf_token %}

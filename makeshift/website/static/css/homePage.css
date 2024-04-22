@@ -90,3 +90,17 @@
 #like-button:hover {
     background-color: #a02137;
 }
+
+
+.profile-image, .no-image {
+    display: block;
+    width: 300px;
+    height: 300px;
+    border: 2px dashed #ccc;
+    margin: 10px auto;
+    border-radius: 5px;
+    background-color: #f8f8f8;
+    line-height: 300px;
+    text-align: center;
+    color: #ccc;
+}
