@@ -14,4 +14,13 @@ OBJ 2 :
 - Use the same username and password that you created, if either wrong the input fields will clear.
 - You should be redirected to the static/homepage
 - Make sure the tile is present, the username is present and log out button is presnt
-- If you want to log out click log out and you should be redirected back to log in.
+- If you want to log out click log out and you should be redirected back to log in. 
+# Part 2 Use Docker compose up.
+OBJ 1 :
+- \
+OBJ 2 :
+- Create account and login
+- Next find the "Let's Chat" button and click
+- You are directed to our global chat page
+- This is where we implemented our websocket connection like HW 4 LO
+- Enter message or read message 
