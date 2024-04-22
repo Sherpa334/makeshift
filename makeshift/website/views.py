@@ -152,8 +152,9 @@ def homePage(request):
         location = html.escape(request.POST.get('Location'))
         bio = html.escape(request.POST.get('Bio'))
         image = request.FILES.get('upload')
-        
-        if image:
+        splitted_name = image.name.split('.')
+        extension = splitted_name[-1]
+        if image and (extension == 'png' or extension == 'jpg' or extension == 'jpeg'):
             random_id = str(uuid.uuid4())
             original_name = image.name
             _, extension = os.path.splitext(original_name)
