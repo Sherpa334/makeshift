@@ -36,12 +36,12 @@ Contains quick access to the pages for our project and when clicked redirected t
 - Ensure the team logo is visible
 - Ensure four links are present in the nav bar (Home/Post/Chat/Logout)
 - Click on post
-- Confirm you are redirected to the page
+- Confirm you are redirected to a different page
 - When redirected to the page ensure the nav bar is still present and functional.
 - Click on Home
 - Confirm that you are redirected back to the original page
 - Continue the process until Logout
 - Click Logout
-- Confirm you are logged out and in the redirected to the login page
-- Input the login infomation
-- Confirm the nav bar is still present.
+- Confirm you are redirected to the login page
+- Input the login information
+- Confirm the nav bar is still present on top of page.
