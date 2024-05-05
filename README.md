@@ -29,11 +29,11 @@ OBJ 2 :
 # Part 3 Extra Features.
 OBJ 1 :
  \
-OBJ 2 : Navigation bar. 
-Contains the links to the pages for our project and when clicked redirected to those pages.
+OBJ 2 : Navigation bar \
+Contains quick access to the pages for our project and when clicked redirected to those pages. This feature makes it so user does not have to manually type the pages of the application. It meets the requirement as it has not been done in any of the objectives presented in previous objectives.
 - Create account and login
 - Ensure the the nav bar is present at the top of the page
 - Ensure the team logo is visible
 - Ensure four links are present in the nav bar (Home/Post/Chat/Logout)
-- Click the links to ensure proper functionality
+- Click the links to ensure you are redirected to a different page
 - When navigated to the pages ensure the nav bar is still present and functional.
