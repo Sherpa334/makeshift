@@ -26,3 +26,14 @@ OBJ 2 :
 - You are directed to our global chat page
 - This is where we implemented our websocket connection like HW 4 LO
 - Enter message or read message 
+# Part 3 Extra Features.
+OBJ 1 :
+ \
+OBJ 2 : Navigation bar. 
+Contains the links to the pages for our project and when clicked redirected to those pages.
+- Create account and login
+- Ensure the the nav bar is present at the top of the page
+- Ensure the team logo is visible
+- Ensure four links are present in the nav bar (Home/Post/Chat/Logout)
+- Click the links to ensure proper functionality
+- When navigated to the pages ensure the nav bar is still present and functional.
