@@ -1,0 +1,14 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/navbar.css' %}">
+
+<nav class="navbar">
+    <ul class="navbarul">
+        <li1 class="tcnavbarbutton"><a href="{% url 'staticPage' %}"></a><img class="MS-icon" src="{% static 'MS.png' %}" alt="My Image"></li1>
+        <div class="navright">
+            <li class="navbarbutton"><a href="{% url 'homePage' %}">Home</a></li>
+            <li class="navbarbutton"><a href="{% url 'staticPage' %}">Static</a></li>
+            <li class="navbarbutton"><a href="{% url 'chat' %}">Chat</a></li>
+            <li class="navbarbutton"><a href="{% url 'logout' %}">Logout</a></li>
+        </div>
+    </ul>
+</nav>
