@@ -27,9 +27,17 @@ OBJ 2 :
 - This is where we implemented our websocket connection like HW 4 LO
 - Enter message or read message 
 # Part 3 Extra Features.
-OBJ 1 :
- \
-OBJ 2 : Navigation bar \
+OBJ 1 : Timed Userlist\
+We chose to do the time a user is on our chat page which utilizes websockets
+- Create account and login
+- On the nav bar click Chat
+- Ensure you are redirected to the chat page
+- There is a connected user area
+- Verify that you are present and the timer is going up
+- If you reload, the websocket is disconnected and reconnected so new timer starts
+- If another user is presnet in the chat page the list is updated accordingly.\
+
+OBJ 3 : Navigation bar \
 Contains quick access to the pages for our project and when clicked redirected to those pages. This feature makes it so user does not have to manually type the pages of the application. It meets the requirement as it has not been done in any of the objectives presented in previous objectives.
 - Create account and login
 - Ensure the the nav bar is present at the top of the page
