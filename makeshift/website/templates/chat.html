@@ -17,12 +17,12 @@
             <button id="chat-button" type="submit">Send</button>
         </form>
         <div id="messages" class="chat-box"></div>
+        <div id="user-list"></div>
         <script type="text/javascript">
             let url = `ws://${window.location.host}/ws/socket-server/`;
             const authToken = `{{ auth_token }}`;
             const chatSocket = new WebSocket(url);
             const username = `{{ username }}`;
-
             chatSocket.onmessage = function(e) {
                 let data = JSON.parse(e.data);
                 console.log('Data:', data);
@@ -32,9 +32,10 @@
                     let messageText = `<p><strong>${data.username}:</strong> ${data.message}</p>`;
                     messageElement.innerHTML = messageText;
                     messages.appendChild(messageElement);
+                } else if (data.type === 'user_list') {
+                    updateUserList(data.users);
                 }
             }
-
             let form = document.getElementById('form');
             form.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -45,6 +46,41 @@
                 }));
                 form.reset();
             });
+            function updateUserList(users) {
+                let userList = document.getElementById('user-list');
+                userList.innerHTML = '';  
+                let userListHeader = document.createElement('h3');
+                userListHeader.textContent = 'Connected Users:';
+                userList.appendChild(userListHeader);
+                for (let user of users) {
+                    let userElement = document.createElement('p');
+                    let connectionTime = new Date(user.connection_time * 1000);
+                    userElement.textContent = `${user.username} (Connected for ${formatTime(Date.now() - connectionTime.getTime())})`;
+                    userList.appendChild(userElement);
+                }
+            }
+            function formatTime(milliseconds) {
+                let seconds = Math.floor(milliseconds / 1000);
+                let minutes = Math.floor(seconds / 60);
+                let hours = Math.floor(minutes / 60);
+                seconds = seconds % 60;
+                minutes = minutes % 60;
+                let timeString = '';
+                if (hours > 0) {
+                    timeString += `${hours} hour${hours > 1 ? 's' : ''} `;
+                }
+                if (minutes > 0) {
+                    timeString += `${minutes} minute${minutes > 1 ? 's' : ''} `;
+                }
+                timeString += `${seconds} second${seconds > 1 ? 's' : ''}`;
+
+                return timeString;
+            }
+            setInterval(function() {
+                chatSocket.send(JSON.stringify({
+                    'type': 'get_user_list'
+                }));
+            }, 1000);
         </script>
     </body>
 </html>
