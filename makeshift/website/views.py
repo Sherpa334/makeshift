@@ -15,6 +15,7 @@ import hashlib
 import secrets
 from django.utils.text import slugify
 
+
 def dbConnection():
     mongo_client = MongoClient("mongo")
     db = mongo_client["makeshift"]
